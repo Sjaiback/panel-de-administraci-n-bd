@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:replace="layouts/fragmentos :: cabecera"></head>
+<body>
+    <nav th:replace="layouts/fragmentos :: barra"></nav>
+    
+    <div id="layoutPanel">
+        <div th:replace="layouts/fragmentos :: menuIzquierda"></div>
+
+        <div id="layoutContenido">
+
+            <div class="container mt-4">
+
+                <div th:if="${mensaje != null}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Mensaje!</strong> <span th:text="${mensaje}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <h1>Registrar Curso</h1>
+                    </div>
+
+                    <div class="card-body">
+                        <form th:action="@{/curso/guardar}" th:object="${curso}" method="post">
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3"> <!-- Corregido a col-md-6 -->
+                                    <label>Categoría</label>
+                                    <select class="form-select" th:field="*{categoria.id}">
+                                        <option value="">Seleccione una opción</option>
+                                        <option th:each="item : ${listaCategorias}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Nombre del curso</label>
+                                    <input th:field="*{nombre}" type="text" class="form-control" placeholder="Ingrese nombre" required/>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Créditos:</label>
+                                    <input th:field="*{creditos}" type="number" class="form-control" placeholder="Ingrese créditos" required/>
+                                </div>
+    
+                                <div class="col-md-6 mb-3">
+                                    <label>Costo:</label>
+                                    <input th:field="*{costo}" type="number" class="form-control" placeholder="Ingrese costo" required/>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-dark">
+                                        <i class="fa-solid fa-floppy-disk"></i> Guardar Curso
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+              
+
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1>Cursos Registrados</h1>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del curso</th>
+                                    <th>Creditos</th>
+                                    <th>Costo</th>
+                                    <th>Categoria</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item: ${listaCursos}">
+                                    <td th:text="${item.nombre}"></td>
+                                    <td th:text="${item.creditos}"></td>
+                                    <td th:text="${item.costo}"></td>
+                                    <td th:text="${item.categoria.nombre}"></td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-warning editarCurso"
+                                        th:data-id="${item.id}"
+                                        th:data-nombre="${item.nombre}"
+                                        th:data-creditos="${item.creditos}"
+                                        th:data-costo="${item.costo}"
+                                        th:data-categoria="${item.categoria.id}">
+
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            Editar</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>
+                                            Eliminar</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <footer th:replace="layouts/fragmentos :: footer"></footer>
+        </div>
+    </div>
+    <!-- Modal -->
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Curso</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form  th:action="@{/curso/guardar}" th:object="${curso}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+          <div class="row">
+            <div class="col-12 mb-3">
+                <label>Categoría</label>
+                <select class="form-select" name="categoria.id" id="cboCategoria">
+                        <option value="">Seleccione una opción</option>
+                                <option th:each="item : ${listaCategorias}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                </select>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col12 mb-3">
+                <label>Nombre del curso</label>
+                <input name="nombre" id="txtNombre" type="text" class="form-control" placeholder="Ingrese nombre" required/>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col12 mb-3">
+                <label>Créditos:</label>
+                <input name="creditos" id="txtCreditos" type="number" class="form-control" placeholder="Ingrese créditos" required/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col12 mb-3">
+                <label>Costo:</label>
+                <input name="costo" id="txtCosto" type="number" class="form-control" placeholder="Ingrese costo" required/>
+                                
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fa-solid fa-xmark"></i>
+            Cancelar
+        </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i>
+            Guardar Cambios
+        </button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+
+    <div th:replace="layouts/fragmentos :: librerias"></div>
+    <script type="text/javascript" th:src="@{/js/curso.js}"></script>
+</body>
+</html>

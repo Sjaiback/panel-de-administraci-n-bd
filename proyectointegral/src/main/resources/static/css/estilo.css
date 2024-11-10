@@ -1,0 +1,112 @@
+#layoutPanel{
+    display: flex;
+}
+
+.sb-sidenav{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-wrap: nowrap;
+}
+
+.sb-sidenav-dark{
+    background-color: rgb(63, 63, 63);
+    color: white;
+}
+
+#layoutContenido{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.sb-sidenav-menu .nav{
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.sb-sidenav-menu-heading{
+    padding: 16px 28px 16px 12px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.sb-sidenav-menu .nav .nav-link{
+    display: flex;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    position: relative;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sb-sidenav-menu .nav .nav-link:hover{
+    color: white;
+}
+
+.sb-sidenav-menu .nav .nav-link .icono{
+    padding-right: 0.3rem;
+}
+
+#layoutPanel #layoutMenu{
+    flex-basis: 225px;
+    transition: transform 0.15s ease-in-out;
+    z-index: 1000;
+    transform: translateX(-225px);
+}
+
+#layoutPanel #layoutContenido{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    flex-grow: 1;
+    min-height: calc(100vh - 56px);
+    margin-left: -225px;
+}
+
+.sb-sidenav-toggled #layoutPanel #layoutMenu{
+    transform: translateX(0px);
+}
+
+.sb-sidenav-toggled #layoutPanel #layoutContenido:before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0000;
+    z-index: 999;
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@media (min-width: 992px){
+    #layoutPanel #layoutMenu{
+        transform: translateX(0);
+    }
+
+    #layoutPanel #layoutContenido{
+        margin-left: 0;
+        transition: margin 0.15s ease-in-out;
+    }
+
+    .sb-sidenav-toggled #layoutPanel #layoutMenu{
+        transform: translateX(-225px);
+    }
+
+    .sb-sidenav-toggled #layoutPanel #layoutContenido{
+        margin-left: -225px;
+    }
+
+    .sb-sidenav-toggled #layoutPanel #layoutContenido:before{
+        display: none;
+    }
+}
+
+.sb-sidenav-menu{
+    flex-grow: 1;
+}

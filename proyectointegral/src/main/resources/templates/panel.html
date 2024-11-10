@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head th:replace="layouts/fragmentos :: cabecera" ></head>
+<body>
+    <nav th:replace="layouts/fragmentos :: barra"></nav>
+    
+    <div id="layoutPanel">
+        <div th:replace="layouts/fragmentos :: menuIzquierda"></div>
+
+        <div id="layoutContenido">
+            <div class="container">
+
+            </div>
+            <footer th:replace="layouts/fragmentos :: footer"></footer>
+        </div>
+    </div>
+    <div th:replace="layouts/fragmentos :: librerias"></div>
+</body>
+</html>
